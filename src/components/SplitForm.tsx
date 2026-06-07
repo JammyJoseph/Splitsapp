@@ -4,6 +4,7 @@ import { useMemo, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { ROLE_OPTIONS } from "@/lib/constants";
 import { createSplit, updateSplit, type SplitInput, type CollaboratorInput } from "@/app/splits/actions";
+import { SpotifyTrackSearch } from "@/components/spotify/SpotifyTrackSearch";
 import type { CollaboratorRole, ReleaseStatus } from "@/lib/types";
 
 interface Props {
@@ -96,6 +97,12 @@ export default function SplitForm({ trackId, initial }: Props) {
       {/* Track details */}
       <div className="card space-y-4">
         <h2 className="font-semibold text-zinc-50">The track</h2>
+        <SpotifyTrackSearch
+          onSelect={(t) => {
+            setTitle(t.name);
+            if (!artist) setArtist(t.artistNames);
+          }}
+        />
         <div>
           <label className="label">Track title *</label>
           <input
