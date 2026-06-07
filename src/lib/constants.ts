@@ -64,6 +64,37 @@ export const AGREEMENT_STATUS_LABELS: Record<AgreementStatus, string> = {
   archived: "Archived",
 };
 
+// Human labels for audit event types (shared across dashboard, track page, admin).
+export const AUDIT_LABELS: Record<string, string> = {
+  track_created: "Track created",
+  collaborator_added: "Collaborator added",
+  collaborator_updated: "Collaborators updated",
+  split_sent: "Sent to lock",
+  invite_sent: "Invite sent",
+  invite_viewed: "Invite viewed",
+  collaborator_signed: "Signed",
+  change_requested: "Change requested",
+  change_resolved: "Change resolved",
+  agreement_locked: "Split locked",
+  pdf_generated: "PDF generated",
+  agreement_superseded: "Version superseded",
+  reminder_sent: "Reminder sent",
+};
+
+export const AUDIT_EMOJI: Record<string, string> = {
+  track_created: "✦",
+  split_sent: "➤",
+  invite_sent: "✉",
+  invite_viewed: "👁",
+  collaborator_signed: "✓",
+  change_requested: "⚠",
+  change_resolved: "↺",
+  agreement_locked: "🔒",
+  pdf_generated: "⤓",
+  agreement_superseded: "⎇",
+  reminder_sent: "🔔",
+};
+
 export function appUrl(): string {
   return (
     process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, "") ||
