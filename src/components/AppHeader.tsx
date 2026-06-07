@@ -23,6 +23,9 @@ export function AppHeader({
             <Link href="/dashboard" className="rounded-full px-3 py-1.5 hover:bg-white/5 hover:text-white">
               Dashboard
             </Link>
+            <Link href="/profile" className="rounded-full px-3 py-1.5 hover:bg-white/5 hover:text-white">
+              Profile
+            </Link>
             {isManager && (
               <Link href="/clients" className="rounded-full px-3 py-1.5 hover:bg-white/5 hover:text-white">
                 Clients
