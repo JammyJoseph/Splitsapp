@@ -40,10 +40,10 @@ export default function SignFlow({
 
   if (agreementStatus === "locked" || locked) {
     return (
-      <div className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 p-6 text-center">
+      <div className="mt-6 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 p-6 text-center">
         <p className="text-2xl">🔒</p>
-        <p className="mt-2 font-semibold text-emerald-800">Split Locked</p>
-        <p className="mt-1 text-sm text-emerald-700">
+        <p className="mt-2 font-semibold text-emerald-200">Split Locked</p>
+        <p className="mt-1 text-sm text-emerald-300">
           Everyone signed. This split is locked. Reference {reference}.
         </p>
       </div>
@@ -52,7 +52,7 @@ export default function SignFlow({
 
   if (agreementStatus === "superseded") {
     return (
-      <div className="mt-6 rounded-2xl border border-zinc-200 bg-white p-6 text-center text-sm text-zinc-500">
+      <div className="mt-6 rounded-2xl border border-white/10 bg-zinc-900 p-6 text-center text-sm text-zinc-400">
         A newer version of this split was created. Ask the creator for the
         latest signing link.
       </div>
@@ -61,10 +61,10 @@ export default function SignFlow({
 
   if (view === "signed") {
     return (
-      <div className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 p-6 text-center">
+      <div className="mt-6 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 p-6 text-center">
         <p className="text-2xl">✓</p>
-        <p className="mt-2 font-semibold text-emerald-800">You&apos;re signed</p>
-        <p className="mt-1 text-sm text-emerald-700">
+        <p className="mt-2 font-semibold text-emerald-200">You&apos;re signed</p>
+        <p className="mt-1 text-sm text-emerald-300">
           Thanks{collaboratorName ? `, ${collaboratorName.split(" ")[0]}` : ""}.
           We&apos;ll lock the split as soon as everyone has signed.
         </p>
@@ -74,9 +74,9 @@ export default function SignFlow({
 
   if (view === "changed") {
     return (
-      <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 p-6 text-center">
-        <p className="mt-2 font-semibold text-amber-800">Change requested</p>
-        <p className="mt-1 text-sm text-amber-700">
+      <div className="mt-6 rounded-2xl border border-amber-500/20 bg-amber-500/10 p-6 text-center">
+        <p className="mt-2 font-semibold text-amber-200">Change requested</p>
+        <p className="mt-1 text-sm text-amber-300">
           The creator has been notified. They&apos;ll review and send an updated
           version for everyone to sign.
         </p>
@@ -99,8 +99,8 @@ export default function SignFlow({
 
       {view === "sign" && (
         <div className="card space-y-4">
-          <h3 className="font-semibold text-zinc-900">Accept &amp; Sign</h3>
-          <p className="text-sm text-zinc-600">
+          <h3 className="font-semibold text-zinc-50">Accept &amp; Sign</h3>
+          <p className="text-sm text-zinc-300">
             I confirm that the splits shown above are accurate for this track and
             that I agree to the standard protection terms attached to this Split
             Confirmation Agreement.
@@ -124,7 +124,7 @@ export default function SignFlow({
             The split information is accurate to the best of my knowledge.
           </Checkbox>
 
-          {error && <p className="text-sm text-rose-600">{error}</p>}
+          {error && <p className="text-sm text-rose-400">{error}</p>}
 
           <div className="flex gap-3">
             <button className="btn-secondary" onClick={() => setView("choose")}>
@@ -158,7 +158,7 @@ export default function SignFlow({
 
       {view === "change" && (
         <div className="card space-y-4">
-          <h3 className="font-semibold text-zinc-900">Request a change</h3>
+          <h3 className="font-semibold text-zinc-50">Request a change</h3>
           <div>
             <label className="label">What needs to change? *</label>
             <textarea
@@ -180,7 +180,7 @@ export default function SignFlow({
             />
           </div>
 
-          {error && <p className="text-sm text-rose-600">{error}</p>}
+          {error && <p className="text-sm text-rose-400">{error}</p>}
 
           <div className="flex gap-3">
             <button className="btn-secondary" onClick={() => setView("choose")}>
@@ -220,12 +220,12 @@ function Checkbox({
   children: React.ReactNode;
 }) {
   return (
-    <label className="flex cursor-pointer items-start gap-3 text-sm text-zinc-700">
+    <label className="flex cursor-pointer items-start gap-3 text-sm text-zinc-300">
       <input
         type="checkbox"
         checked={checked}
         onChange={(e) => onChange(e.target.checked)}
-        className="mt-0.5 h-4 w-4 rounded border-zinc-300"
+        className="mt-0.5 h-4 w-4 rounded border-white/20"
       />
       <span>{children}</span>
     </label>

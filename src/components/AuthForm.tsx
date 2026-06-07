@@ -98,10 +98,10 @@ export default function AuthForm({ mode }: { mode: Mode }) {
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
           <Logo className="text-xl" />
-          <h1 className="mt-6 text-2xl font-bold tracking-tight text-zinc-900">
+          <h1 className="mt-6 text-2xl font-bold tracking-tight text-white">
             {mode === "signup" ? "Create your account" : "Welcome back"}
           </h1>
-          <p className="mt-1.5 text-sm text-zinc-500">
+          <p className="mt-1.5 text-sm text-zinc-400">
             {mode === "signup"
               ? "Start locking splits in minutes."
               : "Log in to manage your splits."}
@@ -131,12 +131,12 @@ export default function AuthForm({ mode }: { mode: Mode }) {
                       onClick={() => setUserType(t.value)}
                       className={`rounded-xl border px-3 py-2.5 text-left text-sm transition ${
                         userType === t.value
-                          ? "border-zinc-900 bg-zinc-900/[0.03]"
-                          : "border-zinc-200 hover:border-zinc-300"
+                          ? "border-violet-400/60 bg-violet-500/10"
+                          : "border-white/10 hover:border-white/20"
                       }`}
                     >
-                      <span className="font-medium text-zinc-900">{t.label}</span>
-                      <span className="ml-2 text-xs text-zinc-400">{t.hint}</span>
+                      <span className="font-medium text-white">{t.label}</span>
+                      <span className="ml-2 text-xs text-zinc-500">{t.hint}</span>
                     </button>
                   ))}
                 </div>
@@ -167,8 +167,8 @@ export default function AuthForm({ mode }: { mode: Mode }) {
             />
           </div>
 
-          {error && <p className="text-sm text-rose-600">{error}</p>}
-          {info && <p className="text-sm text-emerald-600">{info}</p>}
+          {error && <p className="text-sm text-rose-400">{error}</p>}
+          {info && <p className="text-sm text-emerald-400">{info}</p>}
 
           <button type="submit" className="btn-primary w-full" disabled={busy}>
             {busy
@@ -187,18 +187,18 @@ export default function AuthForm({ mode }: { mode: Mode }) {
           </button>
         </form>
 
-        <p className="mt-6 text-center text-sm text-zinc-500">
+        <p className="mt-6 text-center text-sm text-zinc-400">
           {mode === "signup" ? (
             <>
               Already have an account?{" "}
-              <Link href="/login" className="font-medium text-zinc-900 underline">
+              <Link href="/login" className="font-medium text-white underline">
                 Log in
               </Link>
             </>
           ) : (
             <>
               New to Tracklock?{" "}
-              <Link href="/signup" className="font-medium text-zinc-900 underline">
+              <Link href="/signup" className="font-medium text-white underline">
                 Create an account
               </Link>
             </>

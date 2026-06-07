@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Logo } from "@/components/ui";
 
 export function AppHeader({
   email,
@@ -11,30 +10,35 @@ export function AppHeader({
   isManager?: boolean;
 }) {
   return (
-    <header className="sticky top-0 z-20 border-b border-zinc-200 bg-white/80 backdrop-blur">
+    <header className="sticky top-0 z-30 border-b border-white/[0.06] bg-[#08080a]/80 backdrop-blur-xl">
       <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-3">
         <div className="flex items-center gap-5">
-          <Logo className="text-base" />
-          <nav className="hidden items-center gap-4 text-sm text-zinc-500 sm:flex">
-            <Link href="/dashboard" className="hover:text-zinc-900">
+          <Link
+            href="/dashboard"
+            className="flex items-center gap-2 text-base font-bold tracking-tight text-white"
+          >
+            <span aria-hidden>🔒</span> Tracklock
+          </Link>
+          <nav className="hidden items-center gap-1 text-sm text-zinc-400 sm:flex">
+            <Link href="/dashboard" className="rounded-full px-3 py-1.5 hover:bg-white/5 hover:text-white">
               Dashboard
             </Link>
             {isManager && (
-              <Link href="/clients" className="hover:text-zinc-900">
+              <Link href="/clients" className="rounded-full px-3 py-1.5 hover:bg-white/5 hover:text-white">
                 Clients
               </Link>
             )}
             {isAdmin && (
-              <Link href="/admin" className="hover:text-zinc-900">
+              <Link href="/admin" className="rounded-full px-3 py-1.5 hover:bg-white/5 hover:text-white">
                 Admin
               </Link>
             )}
           </nav>
         </div>
         <div className="flex items-center gap-3">
-          <span className="hidden text-xs text-zinc-400 sm:inline">{email}</span>
+          <span className="hidden text-xs text-zinc-600 sm:inline">{email}</span>
           <form action="/auth/signout" method="post">
-            <button className="text-sm text-zinc-500 hover:text-zinc-900">
+            <button className="text-sm text-zinc-400 transition-colors hover:text-white">
               Sign out
             </button>
           </form>

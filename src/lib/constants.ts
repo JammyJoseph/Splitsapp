@@ -41,18 +41,18 @@ export const TRACK_STATUS_LABELS: Record<TrackStatus, string> = {
   archived: "Archived",
 };
 
-// Tailwind class hints for status badges.
+// Tailwind class hints for status badges (dark theme).
 export const STATUS_BADGE: Record<string, string> = {
-  draft: "bg-zinc-100 text-zinc-600 border-zinc-200",
-  sent: "bg-blue-50 text-blue-700 border-blue-200",
-  awaiting_you: "bg-amber-50 text-amber-700 border-amber-200",
-  waiting: "bg-indigo-50 text-indigo-700 border-indigo-200",
-  changes_requested: "bg-rose-50 text-rose-700 border-rose-200",
-  locked: "bg-emerald-50 text-emerald-700 border-emerald-200",
-  archived: "bg-zinc-100 text-zinc-500 border-zinc-200",
-  signed: "bg-emerald-50 text-emerald-700 border-emerald-200",
-  pending: "bg-amber-50 text-amber-700 border-amber-200",
-  superseded: "bg-zinc-100 text-zinc-500 border-zinc-200",
+  draft: "bg-white/5 text-zinc-400 border-white/10",
+  sent: "bg-blue-500/10 text-blue-300 border-blue-500/20",
+  awaiting_you: "bg-amber-500/10 text-amber-300 border-amber-500/20",
+  waiting: "bg-indigo-500/10 text-indigo-300 border-indigo-500/20",
+  changes_requested: "bg-rose-500/10 text-rose-300 border-rose-500/20",
+  locked: "bg-emerald-500/10 text-emerald-300 border-emerald-500/20",
+  archived: "bg-white/5 text-zinc-500 border-white/10",
+  signed: "bg-emerald-500/10 text-emerald-300 border-emerald-500/20",
+  pending: "bg-amber-500/10 text-amber-300 border-amber-500/20",
+  superseded: "bg-white/5 text-zinc-500 border-white/10",
 };
 
 export const AGREEMENT_STATUS_LABELS: Record<AgreementStatus, string> = {

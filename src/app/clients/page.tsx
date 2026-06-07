@@ -22,10 +22,10 @@ export default async function ClientsPage() {
     <div className="min-h-screen">
       <AppHeader email={user.email} isAdmin={user.isAdmin} isManager />
       <main className="mx-auto max-w-3xl px-4 py-8">
-        <h1 className="text-2xl font-bold tracking-tight text-zinc-900">
+        <h1 className="text-2xl font-bold tracking-tight text-zinc-50">
           Clients
         </h1>
-        <p className="mt-1 text-sm text-zinc-500">
+        <p className="mt-1 text-sm text-zinc-400">
           Manage splits on behalf of the artists and writers you represent.
         </p>
 
@@ -44,8 +44,8 @@ export default async function ClientsPage() {
             <div className="space-y-3">
               {(clients ?? []).map((c) => (
                 <div key={c.id} className="card">
-                  <p className="font-semibold text-zinc-900">{c.name}</p>
-                  {c.email && <p className="text-sm text-zinc-500">{c.email}</p>}
+                  <p className="font-semibold text-zinc-50">{c.name}</p>
+                  {c.email && <p className="text-sm text-zinc-400">{c.email}</p>}
                 </div>
               ))}
             </div>

@@ -56,7 +56,9 @@ export default async function DashboardPage() {
       signedCount,
       total: collaborators.reduce((s, c) => s + Number(c.publishing_percentage), 0),
       iAmCollaborator: !!mine,
-      myPending: !!mine && mine.signature_status === "pending" &&
+      myPending:
+        !!mine &&
+        mine.signature_status === "pending" &&
         (t.status === "sent" || t.status === "changes_requested"),
     });
   }
@@ -68,9 +70,7 @@ export default async function DashboardPage() {
       r.track.status === "sent" &&
       r.signedCount < r.collaborators.length,
   );
-  const changesRequested = rows.filter(
-    (r) => r.track.status === "changes_requested",
-  );
+  const changesRequested = rows.filter((r) => r.track.status === "changes_requested");
   const locked = rows.filter((r) => r.track.status === "locked");
   const drafts = rows.filter(
     (r) => r.track.status === "draft" && r.track.created_by_user_id === user.authId,
@@ -78,28 +78,44 @@ export default async function DashboardPage() {
   const archived = rows.filter((r) => r.track.status === "archived");
 
   const isManager = user.profile?.user_type === "manager";
+  const firstName = (user.profile?.name || user.email).split(/[ @]/)[0];
 
   return (
     <div className="min-h-screen">
       <AppHeader email={user.email} isAdmin={user.isAdmin} isManager={isManager} />
 
-      <main className="mx-auto max-w-4xl px-4 py-8">
-        <div className="flex items-center justify-between">
+      <main className="mx-auto max-w-4xl px-4 py-10">
+        {/* Greeting + primary CTA */}
+        <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight text-zinc-900">
+            <p className="text-sm text-zinc-500">Welcome back, {firstName}</p>
+            <h1 className="mt-1 text-3xl font-bold tracking-tight text-white">
               Your splits
             </h1>
-            <p className="mt-1 text-sm text-zinc-500">
-              One track. One split. Everyone signed.
-            </p>
           </div>
-          <Link href="/splits/new" className="btn-primary">
-            + New Split
+          <Link
+            href="/splits/new"
+            className="btn-primary group w-full justify-center sm:w-auto"
+          >
+            <span className="text-base leading-none transition-transform group-hover:rotate-90">
+              +
+            </span>
+            New Split
           </Link>
         </div>
 
+        {/* Quick stats strip */}
+        {rows.length > 0 && (
+          <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <Stat label="Awaiting you" value={awaitingMe.length} accent={awaitingMe.length > 0} />
+            <Stat label="In progress" value={waitingOthers.length} />
+            <Stat label="Locked" value={locked.length} />
+            <Stat label="Total" value={rows.length} />
+          </div>
+        )}
+
         {rows.length === 0 ? (
-          <div className="mt-8">
+          <div className="mt-10">
             <EmptyState
               title="No splits yet"
               subtitle="Create your first split before the session energy disappears."
@@ -111,7 +127,7 @@ export default async function DashboardPage() {
             />
           </div>
         ) : (
-          <div className="mt-8 space-y-8">
+          <div className="mt-10 space-y-10">
             <Section title="Awaiting you" rows={awaitingMe} emptyHint="Nothing needs your signature." highlight />
             <Section title="Waiting on others" rows={waitingOthers} emptyHint="Nothing pending from collaborators." />
             <Section title="Changes requested" rows={changesRequested} emptyHint="No change requests." />
@@ -121,6 +137,31 @@ export default async function DashboardPage() {
           </div>
         )}
       </main>
+    </div>
+  );
+}
+
+function Stat({
+  label,
+  value,
+  accent,
+}: {
+  label: string;
+  value: number;
+  accent?: boolean;
+}) {
+  return (
+    <div
+      className={`rounded-2xl border p-4 ${
+        accent
+          ? "border-violet-500/30 bg-violet-500/[0.07]"
+          : "border-white/[0.08] bg-white/[0.02]"
+      }`}
+    >
+      <p className={`text-2xl font-bold ${accent ? "text-violet-300" : "text-white"}`}>
+        {value}
+      </p>
+      <p className="text-xs uppercase tracking-wide text-zinc-500">{label}</p>
     </div>
   );
 }
@@ -139,11 +180,12 @@ function Section({
   if (rows.length === 0 && !emptyHint) return null;
   return (
     <section>
-      <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-zinc-400">
-        {title} {rows.length > 0 && <span className="text-zinc-300">· {rows.length}</span>}
+      <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-zinc-500">
+        {title}{" "}
+        {rows.length > 0 && <span className="text-zinc-700">· {rows.length}</span>}
       </h2>
       {rows.length === 0 ? (
-        <p className="text-sm text-zinc-400">{emptyHint}</p>
+        <p className="text-sm text-zinc-600">{emptyHint}</p>
       ) : (
         <div className="space-y-3">
           {rows.map((r) => (
@@ -157,30 +199,42 @@ function Section({
 
 function TrackCard({ row, highlight }: { row: Row; highlight?: boolean }) {
   const { track, collaborators, signedCount } = row;
-  const statusKey =
-    track.status === "sent" ? "waiting" : track.status;
+  const statusKey = track.status === "sent" ? "waiting" : track.status;
+  const pctSigned =
+    collaborators.length > 0 ? (signedCount / collaborators.length) * 100 : 0;
   return (
     <Link
       href={`/splits/${track.id}`}
-      className={`card flex items-center justify-between transition hover:shadow-md ${
-        highlight ? "ring-2 ring-amber-200" : ""
+      className={`group block rounded-2xl border bg-white/[0.02] p-5 transition-all hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/[0.04] ${
+        highlight ? "border-violet-500/30" : "border-white/[0.08]"
       }`}
     >
-      <div className="min-w-0">
-        <div className="flex items-center gap-2">
-          <p className="truncate font-semibold text-zinc-900">{track.title}</p>
-          <Badge status={statusKey} label={statusLabel(track.status)} />
+      <div className="flex items-center justify-between gap-4">
+        <div className="min-w-0">
+          <div className="flex items-center gap-2">
+            <p className="truncate font-semibold text-white">{track.title}</p>
+            <Badge status={statusKey} label={statusLabel(track.status)} />
+          </div>
+          <p className="mt-1 truncate text-sm text-zinc-500">
+            {track.artist_project_name || "—"} · {collaborators.length} collaborator
+            {collaborators.length === 1 ? "" : "s"} · {formatPct(row.total)}
+          </p>
         </div>
-        <p className="mt-0.5 truncate text-sm text-zinc-500">
-          {track.artist_project_name || "—"} · {collaborators.length} collaborator
-          {collaborators.length === 1 ? "" : "s"} · {formatPct(row.total)}
-        </p>
+        <div className="shrink-0 text-right">
+          <p className="text-sm font-medium text-zinc-200">
+            {signedCount}/{collaborators.length}
+          </p>
+          <p className="text-xs text-zinc-600">{formatDate(track.updated_at)}</p>
+        </div>
       </div>
-      <div className="ml-4 shrink-0 text-right">
-        <p className="text-sm font-medium text-zinc-900">
-          {signedCount}/{collaborators.length} signed
-        </p>
-        <p className="text-xs text-zinc-400">{formatDate(track.updated_at)}</p>
+      {/* Signature progress */}
+      <div className="mt-4 h-1 w-full overflow-hidden rounded-full bg-white/[0.06]">
+        <div
+          className={`h-full rounded-full transition-all ${
+            track.status === "locked" ? "bg-emerald-400" : "bg-violet-400"
+          }`}
+          style={{ width: `${Math.max(pctSigned, 4)}%` }}
+        />
       </div>
     </Link>
   );

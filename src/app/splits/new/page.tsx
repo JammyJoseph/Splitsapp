@@ -10,10 +10,10 @@ export default async function NewSplitPage() {
     <div className="min-h-screen">
       <AppHeader email={user.email} isAdmin={user.isAdmin} />
       <main className="mx-auto max-w-2xl px-4 py-8">
-        <h1 className="text-2xl font-bold tracking-tight text-zinc-900">
+        <h1 className="text-2xl font-bold tracking-tight text-zinc-50">
           New Split
         </h1>
-        <p className="mt-1 text-sm text-zinc-500">
+        <p className="mt-1 text-sm text-zinc-400">
           Create a track. Add collaborators. Set the splits.
         </p>
         <div className="mt-6">

@@ -73,7 +73,7 @@ export default async function TrackPage({
     <div className="min-h-screen">
       <AppHeader email={user.email} isAdmin={user.isAdmin} />
       <main className="mx-auto max-w-2xl px-4 py-8">
-        <Link href="/dashboard" className="text-sm text-zinc-400 hover:text-zinc-700">
+        <Link href="/dashboard" className="text-sm text-zinc-500 hover:text-zinc-300">
           ← Dashboard
         </Link>
 
@@ -81,12 +81,12 @@ export default async function TrackPage({
         <div className="mt-3 flex items-start justify-between gap-3">
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-2xl font-bold tracking-tight text-zinc-900">
+              <h1 className="text-2xl font-bold tracking-tight text-zinc-50">
                 {track.title}
               </h1>
               <StatusBadge status={track.status} />
             </div>
-            <p className="mt-1 text-sm text-zinc-500">
+            <p className="mt-1 text-sm text-zinc-400">
               {track.artist_project_name || "—"} · v{track.current_version} ·{" "}
               {RELEASE_STATUS_LABELS[track.release_status ?? "unknown"]}
             </p>
@@ -101,16 +101,16 @@ export default async function TrackPage({
 
         {/* Locked banner */}
         {isLocked && currentAgreement && (
-          <div className="mt-5 rounded-2xl border border-emerald-200 bg-emerald-50 p-5">
-            <div className="flex items-center gap-2 text-emerald-800">
+          <div className="mt-5 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 p-5">
+            <div className="flex items-center gap-2 text-emerald-200">
               <span className="text-lg">🔒</span>
               <span className="font-semibold">Split Locked</span>
             </div>
-            <p className="mt-1 text-sm text-emerald-700">
+            <p className="mt-1 text-sm text-emerald-300">
               Locked {formatDateTime(currentAgreement.locked_at)} · Reference{" "}
               <span className="font-mono">{currentAgreement.unique_agreement_reference}</span>
             </p>
-            <p className="mt-2 text-xs text-emerald-700/80">
+            <p className="mt-2 text-xs text-emerald-300/80">
               Locked splits cannot be edited. To make a change, create a new
               version.
             </p>
@@ -133,20 +133,20 @@ export default async function TrackPage({
 
         {/* Change requests */}
         {openChangeRequests.length > 0 && (
-          <div className="mt-5 rounded-2xl border border-rose-200 bg-rose-50 p-5">
-            <p className="font-semibold text-rose-800">
+          <div className="mt-5 rounded-2xl border border-rose-500/20 bg-rose-500/10 p-5">
+            <p className="font-semibold text-rose-200">
               Changes requested ({openChangeRequests.length})
             </p>
             <div className="mt-3 space-y-3">
               {openChangeRequests.map((cr) => (
-                <div key={cr.id} className="rounded-xl bg-white p-3">
-                  <p className="text-sm text-zinc-800">{cr.reason}</p>
+                <div key={cr.id} className="rounded-xl bg-zinc-900 p-3">
+                  <p className="text-sm text-zinc-100">{cr.reason}</p>
                   {cr.proposed_change && (
-                    <p className="mt-1 text-sm text-zinc-500">
+                    <p className="mt-1 text-sm text-zinc-400">
                       Proposed: {cr.proposed_change}
                     </p>
                   )}
-                  <p className="mt-1 text-xs text-zinc-400">
+                  <p className="mt-1 text-xs text-zinc-500">
                     {formatDateTime(cr.created_at)}
                   </p>
                   {isOwner && (
@@ -158,7 +158,7 @@ export default async function TrackPage({
               ))}
             </div>
             {isOwner && (
-              <p className="mt-3 text-xs text-rose-700">
+              <p className="mt-3 text-xs text-rose-300">
                 Edit the split to address the change — saving creates a new
                 version everyone re-signs.
               </p>
@@ -168,7 +168,7 @@ export default async function TrackPage({
 
         {/* Split table */}
         <div className="mt-6">
-          <h2 className="mb-3 font-semibold text-zinc-900">Publishing splits</h2>
+          <h2 className="mb-3 font-semibold text-zinc-50">Publishing splits</h2>
           <SplitTable
             collaborators={collaborators}
             showStatus
@@ -179,14 +179,14 @@ export default async function TrackPage({
         {/* Pending signatures + reminders */}
         {isOwner && (track.status === "sent" || track.status === "changes_requested") && (
           <div className="mt-6 card">
-            <h2 className="font-semibold text-zinc-900">Signature status</h2>
-            <p className="mt-1 text-sm text-zinc-500">
+            <h2 className="font-semibold text-zinc-50">Signature status</h2>
+            <p className="mt-1 text-sm text-zinc-400">
               {readiness.signedCount}/{readiness.totalCount} signed.
               {!readiness.ready && readiness.reasons.length > 0 && (
                 <> {readiness.reasons[readiness.reasons.length - 1]}</>
               )}
             </p>
-            <div className="mt-3 divide-y divide-zinc-100">
+            <div className="mt-3 divide-y divide-white/[0.06]">
               {collaborators
                 .filter((c) => c.signature_status !== "signed")
                 .map((c) => (
@@ -195,8 +195,8 @@ export default async function TrackPage({
                     className="flex items-center justify-between py-2.5"
                   >
                     <div>
-                      <p className="text-sm font-medium text-zinc-900">{c.name}</p>
-                      <p className="text-xs text-zinc-400">
+                      <p className="text-sm font-medium text-zinc-50">{c.name}</p>
+                      <p className="text-xs text-zinc-500">
                         Waiting on {c.name.split(" ")[0]}
                       </p>
                     </div>
@@ -204,7 +204,7 @@ export default async function TrackPage({
                   </div>
                 ))}
               {collaborators.every((c) => c.signature_status === "signed") && (
-                <p className="py-2 text-sm text-emerald-600">Everyone signed.</p>
+                <p className="py-2 text-sm text-emerald-300">Everyone signed.</p>
               )}
             </div>
           </div>
@@ -229,10 +229,10 @@ export default async function TrackPage({
         {/* Master note */}
         {track.master_ownership_note && (
           <div className="mt-6 card">
-            <p className="text-xs uppercase tracking-wide text-zinc-400">
+            <p className="text-xs uppercase tracking-wide text-zinc-500">
               Master ownership note (informational only)
             </p>
-            <p className="mt-1 text-sm text-zinc-700">
+            <p className="mt-1 text-sm text-zinc-300">
               {track.master_ownership_note}
             </p>
           </div>
@@ -241,15 +241,15 @@ export default async function TrackPage({
         {/* Standard protection terms */}
         {legalTemplate && (
           <details className="mt-6 card">
-            <summary className="cursor-pointer font-semibold text-zinc-900">
+            <summary className="cursor-pointer font-semibold text-zinc-50">
               Standard protection terms · v{legalTemplate.version}
             </summary>
-            <p className="mt-2 text-xs text-zinc-400">
+            <p className="mt-2 text-xs text-zinc-500">
               Governing law: {legalTemplate.governing_law} · effective{" "}
               {formatDate(legalTemplate.effective_date)}. These terms are
               version-controlled and cannot be edited per agreement.
             </p>
-            <pre className="mt-3 max-h-80 overflow-auto whitespace-pre-wrap rounded-xl bg-zinc-50 p-3 text-xs leading-relaxed text-zinc-600">
+            <pre className="mt-3 max-h-80 overflow-auto whitespace-pre-wrap rounded-xl bg-white/[0.03] p-3 text-xs leading-relaxed text-zinc-300">
               {legalTemplate.body}
             </pre>
           </details>
@@ -258,20 +258,20 @@ export default async function TrackPage({
         {/* Version history */}
         {agreements.length > 1 && (
           <div className="mt-6 card">
-            <h2 className="font-semibold text-zinc-900">Version history</h2>
-            <div className="mt-3 divide-y divide-zinc-100">
+            <h2 className="font-semibold text-zinc-50">Version history</h2>
+            <div className="mt-3 divide-y divide-white/[0.06]">
               {agreements.map((a) => (
                 <div
                   key={a.id}
                   className="flex items-center justify-between py-2.5 text-sm"
                 >
-                  <span className="text-zinc-700">
+                  <span className="text-zinc-300">
                     v{a.version} · {a.unique_agreement_reference}
                   </span>
                   <span className="flex items-center gap-3">
                     <Badge status={a.status} label={a.status} />
                     {a.status === "locked" && (
-                      <a href={`/api/pdf/${a.id}`} className="text-zinc-500 underline">
+                      <a href={`/api/pdf/${a.id}`} className="text-zinc-400 underline">
                         PDF
                       </a>
                     )}
@@ -285,19 +285,19 @@ export default async function TrackPage({
         {/* Audit trail */}
         {(isOwner || user.isAdmin) && auditEvents.length > 0 && (
           <details className="mt-6 card">
-            <summary className="cursor-pointer font-semibold text-zinc-900">
+            <summary className="cursor-pointer font-semibold text-zinc-50">
               Audit trail · {auditEvents.length} events
             </summary>
             <div className="mt-3 space-y-2">
               {auditEvents.map((e) => (
                 <div key={e.id} className="flex items-baseline justify-between text-xs">
-                  <span className="text-zinc-700">
+                  <span className="text-zinc-300">
                     {AUDIT_LABELS[e.event_type] ?? e.event_type}
                     {e.actor_email && (
-                      <span className="text-zinc-400"> · {e.actor_email}</span>
+                      <span className="text-zinc-500"> · {e.actor_email}</span>
                     )}
                   </span>
-                  <span className="text-zinc-400">
+                  <span className="text-zinc-500">
                     {formatDateTime(e.created_at)}
                   </span>
                 </div>

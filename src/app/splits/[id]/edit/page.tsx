@@ -47,11 +47,11 @@ export default async function EditSplitPage({
     <div className="min-h-screen">
       <AppHeader email={user.email} isAdmin={user.isAdmin} />
       <main className="mx-auto max-w-2xl px-4 py-8">
-        <h1 className="text-2xl font-bold tracking-tight text-zinc-900">
+        <h1 className="text-2xl font-bold tracking-tight text-zinc-50">
           Edit split
         </h1>
         {isRevision && (
-          <p className="mt-2 rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-700">
+          <p className="mt-2 rounded-xl bg-amber-500/10 px-4 py-3 text-sm text-amber-300">
             This split has already been sent. Saving changes creates a new
             version — everyone will need to re-sign.
           </p>

@@ -1,56 +1,151 @@
 @import "tailwindcss";
 
+/* ===========================================================================
+   Tracklock design system — dark, clean, music-native.
+   Tokens live here so the web app and the future Expo (React Native Web) app
+   can consume the same values. Premium, editorial, not corporate.
+   =========================================================================== */
+
 :root {
-  --background: #fafafa;
-  --foreground: #0a0a0a;
+  /* Surfaces */
+  --bg: #08080a;
+  --bg-elevated: #121214;
+  --surface: #141417;
+  --surface-2: #1b1b1f;
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
+
+  /* Text */
+  --text: #fafafa;
+  --text-muted: #a1a1aa;
+  --text-subtle: #71717a;
+
+  /* Accent — electric violet studio glow */
+  --accent: #a78bfa;
+  --accent-strong: #8b5cf6;
+  --accent-contrast: #0b0b0d;
+
+  /* Motion (mirrors iOS spring feel) */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: var(--bg);
+  --color-foreground: var(--text);
+  --color-accent: var(--accent);
   --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
-    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 html {
   -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  background: var(--bg);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--bg);
+  color: var(--text);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  letter-spacing: -0.011em;
 }
 
-/* Reusable component classes ------------------------------------------- */
+::selection {
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+
+/* Slim, dark scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+}
+
 @layer components {
+  /* Buttons --------------------------------------------------------------- */
   .btn,
   .btn-primary,
   .btn-secondary,
+  .btn-ghost,
   .btn-danger {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition-colors disabled:opacity-40 disabled:cursor-not-allowed;
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-semibold transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed select-none;
   }
   .btn-primary {
-    @apply bg-zinc-900 text-white hover:bg-zinc-700;
+    @apply bg-white text-zinc-950 hover:bg-zinc-200 active:scale-[0.98];
   }
   .btn-secondary {
-    @apply border border-zinc-200 bg-white text-zinc-900 hover:bg-zinc-50;
+    @apply border border-white/10 bg-white/5 text-zinc-100 hover:bg-white/10 hover:border-white/20 active:scale-[0.98];
+  }
+  .btn-ghost {
+    @apply text-zinc-300 hover:bg-white/5 hover:text-white;
   }
   .btn-danger {
-    @apply border border-rose-200 bg-white text-rose-600 hover:bg-rose-50;
+    @apply border border-rose-500/30 bg-rose-500/10 text-rose-300 hover:bg-rose-500/20;
   }
+
+  /* Inputs ---------------------------------------------------------------- */
   .input {
-    @apply w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-zinc-900 focus:ring-2 focus:ring-zinc-900/10;
+    @apply w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-zinc-100 outline-none transition placeholder:text-zinc-600 focus:border-violet-400/50 focus:bg-white/[0.05] focus:ring-2 focus:ring-violet-500/20;
+  }
+  select.input option {
+    @apply bg-zinc-900 text-zinc-100;
   }
   .label {
-    @apply mb-1.5 block text-sm font-medium text-zinc-700;
+    @apply mb-1.5 block text-sm font-medium text-zinc-400;
   }
+
+  /* Surfaces -------------------------------------------------------------- */
   .card {
-    @apply rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm;
+    @apply rounded-2xl border border-white/[0.08] bg-white/[0.02] p-5;
   }
+  .card-elevated {
+    @apply rounded-2xl border border-white/10 bg-[#141417] p-5 shadow-[0_8px_40px_-12px_rgba(0,0,0,0.6)];
+  }
+  .glass {
+    @apply border-white/[0.06] bg-[#0a0a0c]/70 backdrop-blur-xl;
+  }
+
+  /* Badges ---------------------------------------------------------------- */
   .badge {
     @apply inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(180deg, #fff 0%, #a1a1aa 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .grain {
+    background-image: radial-gradient(
+      rgba(255, 255, 255, 0.025) 1px,
+      transparent 1px
+    );
+    background-size: 3px 3px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
   }
 }
