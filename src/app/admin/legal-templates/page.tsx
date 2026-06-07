@@ -19,10 +19,10 @@ export default async function LegalTemplatesPage() {
     <div className="min-h-screen">
       <AppHeader email={user.email} isAdmin />
       <main className="mx-auto max-w-3xl px-4 py-8">
-        <Link href="/admin" className="text-sm text-zinc-400 hover:text-zinc-700">
+        <Link href="/admin" className="text-sm text-zinc-500 hover:text-zinc-300">
           ← Admin
         </Link>
-        <h1 className="mt-3 text-2xl font-bold tracking-tight text-zinc-900">
+        <h1 className="mt-3 text-2xl font-bold tracking-tight text-zinc-50">
           Legal templates
         </h1>
         <div className="mt-6">

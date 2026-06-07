@@ -27,7 +27,7 @@ export function SendToLockButton({ trackId }: { trackId: string }) {
       >
         {pending ? "Sending…" : "Send to Lock"}
       </button>
-      {error && <p className="mt-2 text-sm text-rose-600">{error}</p>}
+      {error && <p className="mt-2 text-sm text-rose-400">{error}</p>}
     </div>
   );
 }
@@ -43,7 +43,7 @@ export function RemindButton({
   const [sent, setSent] = useState(false);
   return (
     <button
-      className="text-sm font-medium text-zinc-600 hover:text-zinc-900 disabled:opacity-50"
+      className="text-sm font-medium text-zinc-300 hover:text-zinc-50 disabled:opacity-50"
       disabled={pending || sent}
       onClick={() =>
         start(async () => {
@@ -93,7 +93,7 @@ export function ArchiveButton({
   const router = useRouter();
   return (
     <button
-      className="text-sm text-zinc-400 hover:text-zinc-700"
+      className="text-sm text-zinc-500 hover:text-zinc-300"
       disabled={pending}
       onClick={() =>
         start(async () => {

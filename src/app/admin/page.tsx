@@ -50,7 +50,7 @@ export default async function AdminPage() {
       <AppHeader email={user.email} isAdmin />
       <main className="mx-auto max-w-5xl px-4 py-8">
         <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-bold tracking-tight text-zinc-900">
+          <h1 className="text-2xl font-bold tracking-tight text-zinc-50">
             Admin
           </h1>
           <Link href="/admin/legal-templates" className="btn-secondary">
@@ -61,8 +61,8 @@ export default async function AdminPage() {
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-5">
           {stats.map((s) => (
             <div key={s.label} className="card text-center">
-              <p className="text-2xl font-bold text-zinc-900">{s.value}</p>
-              <p className="text-xs uppercase tracking-wide text-zinc-400">
+              <p className="text-2xl font-bold text-zinc-50">{s.value}</p>
+              <p className="text-xs uppercase tracking-wide text-zinc-500">
                 {s.label}
               </p>
             </div>
@@ -71,10 +71,10 @@ export default async function AdminPage() {
 
         <div className="mt-8 grid gap-6 lg:grid-cols-2">
           <section>
-            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-zinc-400">
+            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-zinc-500">
               Recent tracks
             </h2>
-            <div className="card divide-y divide-zinc-100">
+            <div className="card divide-y divide-white/[0.06]">
               {(recentTracks ?? []).map((t) => (
                 <Link
                   key={t.id}
@@ -82,34 +82,34 @@ export default async function AdminPage() {
                   className="flex items-center justify-between py-2.5 text-sm"
                 >
                   <span className="truncate">
-                    <span className="font-medium text-zinc-900">{t.title}</span>
-                    <span className="text-zinc-400"> · {t.artist_project_name || "—"}</span>
+                    <span className="font-medium text-zinc-50">{t.title}</span>
+                    <span className="text-zinc-500"> · {t.artist_project_name || "—"}</span>
                   </span>
                   <Badge status={t.status === "sent" ? "waiting" : t.status} label={t.status} />
                 </Link>
               ))}
               {(recentTracks ?? []).length === 0 && (
-                <p className="py-3 text-sm text-zinc-400">No tracks yet.</p>
+                <p className="py-3 text-sm text-zinc-500">No tracks yet.</p>
               )}
             </div>
           </section>
 
           <section>
-            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-zinc-400">
+            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-zinc-500">
               Audit log
             </h2>
-            <div className="card max-h-96 divide-y divide-zinc-100 overflow-auto">
+            <div className="card max-h-96 divide-y divide-white/[0.06] overflow-auto">
               {(recentAudit ?? []).map((e) => (
                 <div key={e.id} className="flex items-baseline justify-between py-2 text-xs">
-                  <span className="text-zinc-700">
+                  <span className="text-zinc-300">
                     {e.event_type}
-                    {e.actor_email && <span className="text-zinc-400"> · {e.actor_email}</span>}
+                    {e.actor_email && <span className="text-zinc-500"> · {e.actor_email}</span>}
                   </span>
-                  <span className="text-zinc-400">{formatDateTime(e.created_at)}</span>
+                  <span className="text-zinc-500">{formatDateTime(e.created_at)}</span>
                 </div>
               ))}
               {(recentAudit ?? []).length === 0 && (
-                <p className="py-3 text-sm text-zinc-400">No events yet.</p>
+                <p className="py-3 text-sm text-zinc-500">No events yet.</p>
               )}
             </div>
           </section>

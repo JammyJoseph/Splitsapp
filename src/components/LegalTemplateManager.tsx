@@ -30,7 +30,7 @@ export function LegalTemplateManager({
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <p className="text-sm text-zinc-500">
+        <p className="text-sm text-zinc-400">
           Templates are immutable. Updating terms means creating a new version —
           existing agreements keep the version attached when they were sent.
         </p>
@@ -76,7 +76,7 @@ export function LegalTemplateManager({
                 onChange={(e) => setDate(e.target.value)}
               />
             </div>
-            <label className="flex items-end gap-2 pb-3 text-sm text-zinc-700">
+            <label className="flex items-end gap-2 pb-3 text-sm text-zinc-300">
               <input
                 type="checkbox"
                 checked={activate}
@@ -95,7 +95,7 @@ export function LegalTemplateManager({
               placeholder="Full legal text…"
             />
           </div>
-          {error && <p className="text-sm text-rose-600">{error}</p>}
+          {error && <p className="text-sm text-rose-400">{error}</p>}
           <button
             className="btn-primary"
             disabled={pending}
@@ -130,15 +130,15 @@ export function LegalTemplateManager({
           <div key={t.id} className="card">
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-semibold text-zinc-900">
+                <p className="font-semibold text-zinc-50">
                   {t.title} · v{t.version}{" "}
                   {t.active && (
-                    <span className="ml-1 rounded-full bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700">
+                    <span className="ml-1 rounded-full bg-emerald-500/10 px-2 py-0.5 text-xs font-medium text-emerald-300">
                       Active
                     </span>
                   )}
                 </p>
-                <p className="text-xs text-zinc-400">
+                <p className="text-xs text-zinc-500">
                   {t.governing_law} · effective {formatDate(t.effective_date)}
                 </p>
               </div>
@@ -173,17 +173,17 @@ export function LegalTemplateManager({
               </div>
             </div>
             <details className="mt-3">
-              <summary className="cursor-pointer text-sm text-zinc-500">
+              <summary className="cursor-pointer text-sm text-zinc-400">
                 View terms
               </summary>
-              <pre className="mt-2 max-h-72 overflow-auto whitespace-pre-wrap rounded-xl bg-zinc-50 p-3 text-xs text-zinc-600">
+              <pre className="mt-2 max-h-72 overflow-auto whitespace-pre-wrap rounded-xl bg-white/[0.03] p-3 text-xs text-zinc-300">
                 {t.body}
               </pre>
             </details>
           </div>
         ))}
         {templates.length === 0 && (
-          <p className="text-sm text-zinc-400">No legal templates yet.</p>
+          <p className="text-sm text-zinc-500">No legal templates yet.</p>
         )}
       </div>
     </div>

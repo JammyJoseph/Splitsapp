@@ -95,7 +95,7 @@ export default function SplitForm({ trackId, initial }: Props) {
     <div className="space-y-6">
       {/* Track details */}
       <div className="card space-y-4">
-        <h2 className="font-semibold text-zinc-900">The track</h2>
+        <h2 className="font-semibold text-zinc-50">The track</h2>
         <div>
           <label className="label">Track title *</label>
           <input
@@ -162,11 +162,11 @@ export default function SplitForm({ trackId, initial }: Props) {
       {/* Collaborators */}
       <div className="card space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="font-semibold text-zinc-900">
+          <h2 className="font-semibold text-zinc-50">
             Who wrote the song, and what did everyone agree to?
           </h2>
         </div>
-        <p className="-mt-2 text-sm text-zinc-500">
+        <p className="-mt-2 text-sm text-zinc-400">
           Add each collaborator and the publishing % everyone agreed. It must
           total 100% to send.
         </p>
@@ -175,17 +175,17 @@ export default function SplitForm({ trackId, initial }: Props) {
           {collaborators.map((c, i) => (
             <div
               key={i}
-              className="rounded-xl border border-zinc-200 p-4"
+              className="rounded-xl border border-white/10 p-4"
             >
               <div className="mb-3 flex items-center justify-between">
-                <span className="text-sm font-medium text-zinc-500">
+                <span className="text-sm font-medium text-zinc-400">
                   Collaborator {i + 1}
                 </span>
                 {collaborators.length > 1 && (
                   <button
                     type="button"
                     onClick={() => remove(i)}
-                    className="text-sm text-rose-500 hover:text-rose-700"
+                    className="text-sm text-rose-400 hover:text-rose-300"
                   >
                     Remove
                   </button>
@@ -273,8 +273,8 @@ export default function SplitForm({ trackId, initial }: Props) {
           <div
             className={`ml-auto rounded-full px-3 py-1.5 text-sm font-semibold ${
               isHundred
-                ? "bg-emerald-50 text-emerald-700"
-                : "bg-amber-50 text-amber-700"
+                ? "bg-emerald-500/10 text-emerald-300"
+                : "bg-amber-500/10 text-amber-300"
             }`}
           >
             {isHundred ? "100% ready to send" : `${Math.round(total * 1000) / 1000}% — needs to total 100%`}
@@ -284,8 +284,8 @@ export default function SplitForm({ trackId, initial }: Props) {
 
       {/* Master ownership note */}
       <div className="card space-y-2">
-        <h2 className="font-semibold text-zinc-900">Master ownership note</h2>
-        <p className="text-sm text-zinc-500">
+        <h2 className="font-semibold text-zinc-50">Master ownership note</h2>
+        <p className="text-sm text-zinc-400">
           Informational only in this version — master splits are not a legal
           workflow yet.
         </p>
@@ -299,7 +299,7 @@ export default function SplitForm({ trackId, initial }: Props) {
       </div>
 
       {error && (
-        <p className="rounded-xl bg-rose-50 px-4 py-3 text-sm text-rose-700">
+        <p className="rounded-xl bg-rose-500/10 px-4 py-3 text-sm text-rose-300">
           {error}
         </p>
       )}

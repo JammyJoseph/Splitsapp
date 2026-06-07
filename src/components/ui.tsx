@@ -7,7 +7,7 @@ export function Logo({ className }: { className?: string }) {
     <Link
       href="/"
       className={cn(
-        "inline-flex items-center gap-2 text-lg font-bold tracking-tight text-zinc-900",
+        "inline-flex items-center gap-2 text-lg font-bold tracking-tight text-white",
         className,
       )}
     >
@@ -16,13 +16,7 @@ export function Logo({ className }: { className?: string }) {
   );
 }
 
-export function Badge({
-  status,
-  label,
-}: {
-  status: string;
-  label: string;
-}) {
+export function Badge({ status, label }: { status: string; label: string }) {
   const cls = STATUS_BADGE[status] ?? STATUS_BADGE.draft;
   return <span className={cn("badge", cls)}>{label}</span>;
 }
@@ -37,8 +31,8 @@ export function EmptyState({
   action?: React.ReactNode;
 }) {
   return (
-    <div className="rounded-2xl border border-dashed border-zinc-200 bg-white/50 p-10 text-center">
-      <p className="text-base font-semibold text-zinc-900">{title}</p>
+    <div className="rounded-2xl border border-dashed border-white/10 bg-white/[0.02] p-10 text-center">
+      <p className="text-base font-semibold text-white">{title}</p>
       {subtitle && <p className="mt-1 text-sm text-zinc-500">{subtitle}</p>}
       {action && <div className="mt-4 flex justify-center">{action}</div>}
     </div>
@@ -47,5 +41,5 @@ export function EmptyState({
 
 export function FieldError({ message }: { message?: string }) {
   if (!message) return null;
-  return <p className="mt-1.5 text-sm text-rose-600">{message}</p>;
+  return <p className="mt-1.5 text-sm text-rose-400">{message}</p>;
 }

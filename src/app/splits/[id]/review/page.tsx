@@ -34,8 +34,8 @@ export default async function ReviewPage({
     <div className="min-h-screen">
       <AppHeader email={user.email} isAdmin={user.isAdmin} />
       <main className="mx-auto max-w-2xl px-4 py-8">
-        <p className="text-sm text-zinc-400">Review before sending</p>
-        <h1 className="mt-1 text-2xl font-bold tracking-tight text-zinc-900">
+        <p className="text-sm text-zinc-500">Review before sending</p>
+        <h1 className="mt-1 text-2xl font-bold tracking-tight text-zinc-50">
           {track.title}
         </h1>
 
@@ -50,12 +50,12 @@ export default async function ReviewPage({
             <Meta label="Version" value={`v${track.current_version}`} />
             {track.audio_link && (
               <div className="sm:col-span-2">
-                <p className="text-xs uppercase tracking-wide text-zinc-400">Audio</p>
+                <p className="text-xs uppercase tracking-wide text-zinc-500">Audio</p>
                 <a
                   href={track.audio_link}
                   target="_blank"
                   rel="noreferrer"
-                  className="text-sm text-zinc-900 underline break-all"
+                  className="text-sm text-zinc-50 underline break-all"
                 >
                   {track.audio_link}
                 </a>
@@ -63,23 +63,23 @@ export default async function ReviewPage({
             )}
             {track.notes && (
               <div className="sm:col-span-2">
-                <p className="text-xs uppercase tracking-wide text-zinc-400">Notes</p>
-                <p className="text-sm text-zinc-700">{track.notes}</p>
+                <p className="text-xs uppercase tracking-wide text-zinc-500">Notes</p>
+                <p className="text-sm text-zinc-300">{track.notes}</p>
               </div>
             )}
           </div>
 
           <div>
-            <h2 className="mb-3 font-semibold text-zinc-900">Publishing splits</h2>
+            <h2 className="mb-3 font-semibold text-zinc-50">Publishing splits</h2>
             <SplitTable collaborators={collaborators} />
           </div>
 
           {track.master_ownership_note && (
             <div className="card">
-              <p className="text-xs uppercase tracking-wide text-zinc-400">
+              <p className="text-xs uppercase tracking-wide text-zinc-500">
                 Master ownership note (informational only)
               </p>
-              <p className="mt-1 text-sm text-zinc-700">
+              <p className="mt-1 text-sm text-zinc-300">
                 {track.master_ownership_note}
               </p>
             </div>
@@ -88,8 +88,8 @@ export default async function ReviewPage({
           <div
             className={`rounded-xl px-4 py-3 text-sm font-medium ${
               isHundred
-                ? "bg-emerald-50 text-emerald-700"
-                : "bg-amber-50 text-amber-700"
+                ? "bg-emerald-500/10 text-emerald-300"
+                : "bg-amber-500/10 text-amber-300"
             }`}
           >
             {isHundred
@@ -120,8 +120,8 @@ export default async function ReviewPage({
 function Meta({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <p className="text-xs uppercase tracking-wide text-zinc-400">{label}</p>
-      <p className="text-sm font-medium text-zinc-900">{value}</p>
+      <p className="text-xs uppercase tracking-wide text-zinc-500">{label}</p>
+      <p className="text-sm font-medium text-zinc-50">{value}</p>
     </div>
   );
 }
