@@ -32,6 +32,10 @@ export default async function EditSplitPage({
     release_status: track.release_status ?? "unknown",
     master_ownership_note: track.master_ownership_note ?? "",
     notes: track.notes ?? "",
+    spotify_track_id: track.spotify_track_id ?? null,
+    artwork_url: track.artwork_url ?? null,
+    isrc: track.isrc ?? null,
+    upc: track.upc ?? null,
     collaborators: collaborators.map((c) => ({
       id: c.id,
       name: c.name,

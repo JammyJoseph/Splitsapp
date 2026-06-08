@@ -22,6 +22,8 @@ export interface SpotifyTrack {
   image: string | null;
   url: string;
   releaseDate: string | null;
+  isrc?: string | null;
+  upc?: string | null;
 }
 
 export function spotifyConfigured(): boolean {
@@ -83,6 +85,8 @@ function mapTrack(t: any): SpotifyTrack {
     image: t.album?.images?.[2]?.url ?? t.album?.images?.[0]?.url ?? null,
     url: t.external_urls?.spotify ?? "",
     releaseDate: t.album?.release_date ?? null,
+    isrc: t.external_ids?.isrc ?? null,
+    upc: t.album?.external_ids?.upc ?? null,
   };
 }
 /* eslint-enable @typescript-eslint/no-explicit-any */
@@ -105,6 +109,11 @@ export async function searchTracks(q: string, limit = 8): Promise<SpotifyTrack[]
 
 export async function getArtist(id: string): Promise<SpotifyArtist> {
   return mapArtist(await spotifyGet(`/artists/${id}`));
+}
+
+// Full track (includes ISRC and album UPC) — used for release metadata.
+export async function getTrack(id: string): Promise<SpotifyTrack> {
+  return mapTrack(await spotifyGet(`/tracks/${id}`));
 }
 
 export async function getArtistTopTracks(

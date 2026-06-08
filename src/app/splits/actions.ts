@@ -31,6 +31,10 @@ export interface SplitInput {
   release_status?: ReleaseStatus;
   master_ownership_note?: string;
   notes?: string;
+  spotify_track_id?: string | null;
+  artwork_url?: string | null;
+  isrc?: string | null;
+  upc?: string | null;
   collaborators: CollaboratorInput[];
 }
 
@@ -89,6 +93,10 @@ export async function createSplit(input: SplitInput) {
       release_status: input.release_status || "unknown",
       master_ownership_note: input.master_ownership_note?.trim() || null,
       notes: input.notes?.trim() || null,
+      spotify_track_id: input.spotify_track_id || null,
+      artwork_url: input.artwork_url || null,
+      isrc: input.isrc || null,
+      upc: input.upc || null,
       status: "draft",
       current_version: 1,
     })
@@ -167,6 +175,10 @@ export async function updateSplit(trackId: string, input: SplitInput) {
       release_status: input.release_status || "unknown",
       master_ownership_note: input.master_ownership_note?.trim() || null,
       notes: input.notes?.trim() || null,
+      spotify_track_id: input.spotify_track_id || null,
+      artwork_url: input.artwork_url || null,
+      isrc: input.isrc || null,
+      upc: input.upc || null,
     })
     .eq("id", trackId);
 

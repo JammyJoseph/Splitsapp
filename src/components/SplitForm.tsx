@@ -35,6 +35,10 @@ export default function SplitForm({ trackId, initial }: Props) {
   );
   const [masterNote, setMasterNote] = useState(initial?.master_ownership_note ?? "");
   const [notes, setNotes] = useState(initial?.notes ?? "");
+  const [spotifyTrackId, setSpotifyTrackId] = useState(initial?.spotify_track_id ?? "");
+  const [artworkUrl, setArtworkUrl] = useState(initial?.artwork_url ?? "");
+  const [isrc, setIsrc] = useState(initial?.isrc ?? "");
+  const [upc, setUpc] = useState(initial?.upc ?? "");
   const [collaborators, setCollaborators] = useState<CollaboratorInput[]>(
     initial?.collaborators?.length
       ? initial.collaborators
@@ -81,6 +85,10 @@ export default function SplitForm({ trackId, initial }: Props) {
       release_status: releaseStatus,
       master_ownership_note: masterNote,
       notes,
+      spotify_track_id: spotifyTrackId || null,
+      artwork_url: artworkUrl || null,
+      isrc: isrc || null,
+      upc: upc || null,
       collaborators,
     };
     startTransition(async () => {
@@ -101,8 +109,33 @@ export default function SplitForm({ trackId, initial }: Props) {
           onSelect={(t) => {
             setTitle(t.name);
             if (!artist) setArtist(t.artistNames);
+            setSpotifyTrackId(t.id);
+            if (t.image) setArtworkUrl(t.image);
+            if (t.isrc) setIsrc(t.isrc);
+            if (t.upc) setUpc(t.upc);
           }}
         />
+        {artworkUrl && (
+          <div className="flex items-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.02] p-2.5">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={artworkUrl} alt="" className="h-12 w-12 rounded-lg object-cover" />
+            <div className="text-xs text-zinc-400">
+              Linked to Spotify{isrc ? ` · ISRC ${isrc}` : ""}
+              <button
+                type="button"
+                onClick={() => {
+                  setSpotifyTrackId("");
+                  setArtworkUrl("");
+                  setIsrc("");
+                  setUpc("");
+                }}
+                className="ml-2 text-zinc-500 underline hover:text-zinc-300"
+              >
+                unlink
+              </button>
+            </div>
+          </div>
+        )}
         <div>
           <label className="label">Track title *</label>
           <input
