@@ -53,8 +53,32 @@ export interface Track {
   notes: string | null;
   status: TrackStatus;
   current_version: number;
+  // Phase A — audio + release metadata
+  audio_path: string | null;
+  spotify_track_id: string | null;
+  isrc: string | null;
+  upc: string | null;
+  artwork_url: string | null;
+  released_at: string | null;
+  release_watch: boolean;
+  last_release_check: string | null;
   created_at: string;
   updated_at: string;
+}
+
+export type AccountAccessScope = "view" | "manage";
+export type AccountAccessStatus = "pending" | "approved" | "declined" | "revoked";
+
+export interface AccountAccess {
+  id: string;
+  manager_user_id: string;
+  artist_email: string;
+  artist_user_id: string | null;
+  scope: AccountAccessScope;
+  status: AccountAccessStatus;
+  message: string | null;
+  created_at: string;
+  responded_at: string | null;
 }
 
 export interface Collaborator {

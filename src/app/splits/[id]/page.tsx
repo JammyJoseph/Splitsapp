@@ -8,6 +8,7 @@ import { AppHeader } from "@/components/AppHeader";
 import { Badge } from "@/components/ui";
 import { SplitTable } from "@/components/SplitTable";
 import { CopyLink } from "@/components/CopyLink";
+import { AudioUploader, ReleasePanel } from "@/components/track/TrackMedia";
 import {
   SendToLockButton,
   RemindButton,
@@ -59,6 +60,15 @@ export default async function TrackPage({
 
   const isOwner = track.created_by_user_id === user.authId || user.isAdmin;
   const isLocked = track.status === "locked";
+
+  // Signed playback URL for private session audio.
+  let audioUrl: string | null = null;
+  if (track.audio_path) {
+    const { data: signed } = await supabase.storage
+      .from("track-audio")
+      .createSignedUrl(track.audio_path, 60 * 60);
+    audioUrl = signed?.signedUrl ?? null;
+  }
   const signedIds = new Set(signatures.map((s) => s.collaborator_id ?? ""));
   const openChangeRequests = changeRequests.filter((c) => c.status === "open");
   const readiness = evaluateLockReadiness(
@@ -225,6 +235,21 @@ export default async function TrackPage({
             )}
           </div>
         )}
+
+        {/* Audio + release */}
+        <div className="mt-6 grid gap-3 sm:grid-cols-2">
+          <AudioUploader trackId={track.id} audioUrl={audioUrl} canEdit={isOwner} />
+          <ReleasePanel
+            trackId={track.id}
+            isrc={track.isrc}
+            upc={track.upc}
+            artworkUrl={track.artwork_url}
+            releasedAt={track.released_at}
+            releaseWatch={track.release_watch}
+            hasSpotifyLink={!!track.spotify_track_id}
+            canEdit={isOwner}
+          />
+        </div>
 
         {/* Master note */}
         {track.master_ownership_note && (

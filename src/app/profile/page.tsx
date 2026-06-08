@@ -1,9 +1,12 @@
 import { requireUser } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { AppHeader } from "@/components/AppHeader";
 import { ArtistSearch } from "@/components/spotify/ArtistSearch";
 import { ProfileActions } from "@/components/spotify/ProfileActions";
+import { RespondButtons } from "@/components/access/AccessControls";
 import { getArtistTopTracks, type SpotifyTrack } from "@/lib/spotify";
+import type { AccountAccess } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
@@ -36,6 +39,27 @@ export default async function ProfilePage() {
     }
   }
 
+  // Incoming requests from managers wanting access to my account.
+  const { data: reqRows } = await supabase
+    .from("account_access")
+    .select("*")
+    .eq("status", "pending");
+  const incoming = ((reqRows ?? []) as AccountAccess[]).filter(
+    (r) => r.manager_user_id !== user.authId,
+  );
+  const managerNames = new Map<string, string>();
+  if (incoming.length) {
+    const admin = createAdminClient();
+    const { data: mgrs } = await admin
+      .from("users")
+      .select("id, name, email")
+      .in(
+        "id",
+        incoming.map((r) => r.manager_user_id),
+      );
+    for (const m of mgrs ?? []) managerNames.set(m.id, m.name || m.email);
+  }
+
   const isManager = user.profile?.user_type === "manager";
 
   return (
@@ -54,6 +78,36 @@ export default async function ProfilePage() {
           <p className="mt-1 font-medium text-white">{user.profile?.name || "—"}</p>
           <p className="text-sm text-zinc-400">{user.email}</p>
         </div>
+
+        {/* Access requests */}
+        {incoming.length > 0 && (
+          <div className="mt-6">
+            <h2 className="mb-3 text-sm font-semibold uppercase tracking-wider text-amber-300">
+              Access requests
+            </h2>
+            <div className="space-y-3">
+              {incoming.map((r) => (
+                <div key={r.id} className="card-elevated">
+                  <p className="text-sm text-zinc-200">
+                    <span className="font-semibold text-white">
+                      {managerNames.get(r.manager_user_id) ?? "A manager"}
+                    </span>{" "}
+                    wants <strong>{r.scope === "manage" ? "manage" : "view"}</strong> access
+                    to your splits &amp; catalogue.
+                  </p>
+                  {r.message && (
+                    <p className="mt-2 rounded-lg bg-white/[0.03] px-3 py-2 text-sm text-zinc-400">
+                      “{r.message}”
+                    </p>
+                  )}
+                  <div className="mt-3">
+                    <RespondButtons id={r.id} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Spotify */}
         <div className="mt-6">
