@@ -3,6 +3,7 @@
 import { useRef, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { useConfirm } from "@/components/ui/Confirm";
 import {
   setTrackAudio,
   removeTrackAudio,
@@ -20,6 +21,7 @@ export function AudioUploader({
   canEdit: boolean;
 }) {
   const router = useRouter();
+  const confirm = useConfirm();
   const fileRef = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -63,6 +65,13 @@ export function AudioUploader({
           <button
             className="text-sm text-zinc-500 hover:text-rose-300"
             onClick={async () => {
+              const ok = await confirm({
+                title: "Remove audio?",
+                description: "This deletes the uploaded session audio. This can't be undone.",
+                confirmLabel: "Remove",
+                variant: "danger",
+              });
+              if (!ok) return;
               setBusy(true);
               await removeTrackAudio(trackId);
               router.refresh();

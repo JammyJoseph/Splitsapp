@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { requestAccess, respondToAccess, revokeAccess } from "@/app/clients/actions";
+import { useConfirm } from "@/components/ui/Confirm";
 import type { AccountAccessScope } from "@/lib/types";
 
 export function RequestAccessForm() {
@@ -106,17 +107,25 @@ export function RespondButtons({ id }: { id: string }) {
 
 export function RevokeButton({ id, label = "Revoke" }: { id: string; label?: string }) {
   const router = useRouter();
+  const confirm = useConfirm();
   const [pending, start] = useTransition();
   return (
     <button
       className="text-sm text-zinc-500 hover:text-rose-300"
       disabled={pending}
-      onClick={() =>
+      onClick={async () => {
+        const ok = await confirm({
+          title: `${label} access?`,
+          description: "This immediately ends the access relationship. You can re-request later.",
+          confirmLabel: label,
+          variant: "danger",
+        });
+        if (!ok) return;
         start(async () => {
           await revokeAccess(id);
           router.refresh();
-        })
-      }
+        });
+      }}
     >
       {pending ? "…" : label}
     </button>

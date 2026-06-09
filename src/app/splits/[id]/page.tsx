@@ -227,7 +227,7 @@ export default async function TrackPage({
               Edit
             </Link>
             {readiness.ready ? (
-              <SendToLockButton trackId={track.id} />
+              <SendToLockButton trackId={track.id} collaboratorCount={collaborators.length} />
             ) : (
               <Link href={`/splits/${track.id}/review`} className="btn-primary">
                 Review & send

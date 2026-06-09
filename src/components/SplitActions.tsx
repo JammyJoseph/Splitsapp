@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/Toast";
+import { useConfirm } from "@/components/ui/Confirm";
 import {
   sendToLock,
   remindCollaborator,
@@ -10,16 +11,31 @@ import {
   setArchived,
 } from "@/app/splits/actions";
 
-export function SendToLockButton({ trackId }: { trackId: string }) {
+export function SendToLockButton({
+  trackId,
+  collaboratorCount,
+}: {
+  trackId: string;
+  collaboratorCount?: number;
+}) {
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
   const toast = useToast();
+  const confirm = useConfirm();
   return (
     <div>
       <button
         className="btn-primary w-full sm:w-auto"
         disabled={pending}
-        onClick={() =>
+        onClick={async () => {
+          const ok = await confirm({
+            title: "Send to lock?",
+            description: collaboratorCount
+              ? `This emails all ${collaboratorCount} collaborators a secure signing link and starts the lock. You can still edit until everyone signs.`
+              : "This emails every collaborator a secure signing link and starts the lock.",
+            confirmLabel: "Send to Lock",
+          });
+          if (!ok) return;
           start(async () => {
             setError(null);
             const res = await sendToLock(trackId);
@@ -28,8 +44,8 @@ export function SendToLockButton({ trackId }: { trackId: string }) {
               setError(res.error);
               toast({ title: "Couldn't send", description: res.error, variant: "error" });
             }
-          })
-        }
+          });
+        }}
       >
         {pending ? "Sending…" : "Send to Lock"}
       </button>
