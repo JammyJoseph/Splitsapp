@@ -2,10 +2,12 @@
 
 import { useTransition } from "react";
 import { useRouter } from "next/navigation";
+import { useConfirm } from "@/components/ui/Confirm";
 import { refreshArtist, unlinkArtist } from "@/app/profile/actions";
 
 export function ProfileActions() {
   const router = useRouter();
+  const confirm = useConfirm();
   const [pending, start] = useTransition();
   return (
     <div className="flex gap-2">
@@ -22,10 +24,19 @@ export function ProfileActions() {
       <button
         className="btn-ghost"
         disabled={pending}
-        onClick={() => start(async () => {
-          await unlinkArtist();
-          router.refresh();
-        })}
+        onClick={async () => {
+          const ok = await confirm({
+            title: "Disconnect Spotify?",
+            description: "Your artist insights will be removed. You can reconnect anytime.",
+            confirmLabel: "Disconnect",
+            variant: "danger",
+          });
+          if (!ok) return;
+          start(async () => {
+            await unlinkArtist();
+            router.refresh();
+          });
+        }}
       >
         Disconnect
       </button>

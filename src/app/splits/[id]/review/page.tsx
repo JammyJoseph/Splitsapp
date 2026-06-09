@@ -103,7 +103,7 @@ export default async function ReviewPage({
                 Edit
               </Link>
               {isHundred ? (
-                <SendToLockButton trackId={track.id} />
+                <SendToLockButton trackId={track.id} collaboratorCount={collaborators.length} />
               ) : (
                 <button className="btn-primary" disabled>
                   Send to Lock
