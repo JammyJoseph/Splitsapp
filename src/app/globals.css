@@ -44,6 +44,13 @@ html {
   background: var(--bg);
 }
 
+/* Clear the mobile bottom nav bar (hidden on >= sm). */
+@media (max-width: 639px) {
+  body {
+    padding-bottom: 4.5rem;
+  }
+}
+
 body {
   background: var(--bg);
   color: var(--text);
