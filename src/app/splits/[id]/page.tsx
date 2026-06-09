@@ -210,7 +210,7 @@ export default async function TrackPage({
                         Waiting on {c.name.split(" ")[0]}
                       </p>
                     </div>
-                    <RemindButton trackId={track.id} collaboratorId={c.id} />
+                    <RemindButton trackId={track.id} collaboratorId={c.id} name={c.name} />
                   </div>
                 ))}
               {collaborators.every((c) => c.signature_status === "signed") && (

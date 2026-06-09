@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useTransition } from "react";
 import { signAgreement, requestChange, markInviteViewed } from "@/app/sign/[token]/actions";
+import { useToast } from "@/components/ui/Toast";
 import type { AgreementStatus } from "@/lib/types";
 
 type View = "choose" | "sign" | "change" | "signed" | "changed";
@@ -23,6 +24,7 @@ export default function SignFlow({
   const [locked, setLocked] = useState(agreementStatus === "locked");
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
+  const toast = useToast();
 
   // Sign form state
   const [typedSignature, setTypedSignature] = useState(collaboratorName);
@@ -142,10 +144,15 @@ export default function SignFlow({
                     acceptedTerms: terms,
                     confirmedAccuracy: accuracy,
                   });
-                  if (res?.error) setError(res.error);
-                  else {
-                    if (res?.locked) setLocked(true);
-                    else setView("signed");
+                  if (res?.error) {
+                    setError(res.error);
+                    toast({ title: "Couldn't sign", description: res.error, variant: "error" });
+                  } else if (res?.locked) {
+                    setLocked(true);
+                    toast({ title: "🔒 Split locked", description: "Everyone has signed.", variant: "success" });
+                  } else {
+                    setView("signed");
+                    toast({ title: "You're signed", description: "Thanks — we'll lock it once everyone signs.", variant: "success" });
                   }
                 })
               }
@@ -196,8 +203,13 @@ export default function SignFlow({
                     reason,
                     proposedChange: proposed,
                   });
-                  if (res?.error) setError(res.error);
-                  else setView("changed");
+                  if (res?.error) {
+                    setError(res.error);
+                    toast({ title: "Couldn't send", description: res.error, variant: "error" });
+                  } else {
+                    setView("changed");
+                    toast({ title: "Change requested", description: "The creator has been notified.", variant: "info" });
+                  }
                 })
               }
             >

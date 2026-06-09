@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { ROLE_OPTIONS } from "@/lib/constants";
 import { createSplit, updateSplit, type SplitInput, type CollaboratorInput } from "@/app/splits/actions";
 import { SpotifyTrackSearch } from "@/components/spotify/SpotifyTrackSearch";
+import { useToast } from "@/components/ui/Toast";
 import type { CollaboratorRole, ReleaseStatus } from "@/lib/types";
 
 interface Props {
@@ -23,6 +24,7 @@ const blankCollaborator = (): CollaboratorInput => ({
 
 export default function SplitForm({ trackId, initial }: Props) {
   const router = useRouter();
+  const toast = useToast();
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
 
@@ -96,7 +98,10 @@ export default function SplitForm({ trackId, initial }: Props) {
         ? await updateSplit(trackId, input)
         : await createSplit(input);
       // On success the action redirects; we only get here on error.
-      if (res?.error) setError(res.error);
+      if (res?.error) {
+        setError(res.error);
+        toast({ title: "Couldn't save split", description: res.error, variant: "error" });
+      }
     });
   }
 
