@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui";
 import { SplitTable } from "@/components/SplitTable";
 import { CopyLink } from "@/components/CopyLink";
 import { AudioUploader, ReleasePanel } from "@/components/track/TrackMedia";
+import { Confetti } from "@/components/ui/Confetti";
 import {
   SendToLockButton,
   RemindButton,
@@ -110,6 +111,7 @@ export default async function TrackPage({
         </div>
 
         {/* Locked banner */}
+        {isLocked && currentAgreement && <Confetti fireKey={currentAgreement.id} />}
         {isLocked && currentAgreement && (
           <div className="mt-5 rounded-2xl border border-emerald-500/20 bg-emerald-500/10 p-5">
             <div className="flex items-center gap-2 text-emerald-200">
