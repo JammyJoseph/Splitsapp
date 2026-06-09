@@ -369,13 +369,17 @@ export default function SplitForm({ trackId, initial }: Props) {
           </button>
 
           {step >= 1 && (
-            <div
+            <motion.div
+              key={isHundred ? "ready" : "pending"}
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ type: "spring", stiffness: 500, damping: 22 }}
               className={`hidden rounded-full px-3 py-1.5 text-sm font-semibold sm:block ${
                 isHundred ? "bg-emerald-500/15 text-emerald-300" : "bg-amber-500/15 text-amber-300"
               }`}
             >
-              {isHundred ? "100% ready" : `${Math.round(total * 1000) / 1000}% of 100%`}
-            </div>
+              {isHundred ? "✓ 100% ready" : `${Math.round(total * 1000) / 1000}% of 100%`}
+            </motion.div>
           )}
 
           {step < STEPS.length - 1 ? (
